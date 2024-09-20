@@ -5,8 +5,9 @@
 		<div class="password__controls">
 			<div class="password__result">
 				<input v-model="password" class="password__result-input" disabled />
-				<BaseIcon class="password__result-copy" icon-name="CopyAll" width="24" height="24">
-					<CopyAll />
+				<BaseIcon class="password__result-copy" icon-name="CopyAll" width="24" height="24" @click="copyPassword">
+					<CopyAll v-if="copyIconName === 'copy'" />
+					<Success v-else-if="copyIconName === 'success'" />
 				</BaseIcon>
 			</div>
 
@@ -36,7 +37,7 @@
 							type="checkbox"
 							@change="generatePassword"
 						/>
-						<span>lowercase (a-z)</span>
+						<span class="password__settings-option-text">lowercase (a-z)</span>
 					</label>
 				</li>
 				<li class="password__settings-option">
@@ -47,7 +48,7 @@
 							type="checkbox"
 							@change="generatePassword"
 						/>
-						<span>uppercase (A-Z)</span>
+						<span class="password__settings-option-text">uppercase (A-Z)</span>
 					</label>
 				</li>
 				<li class="password__settings-option">
@@ -58,7 +59,7 @@
 							type="checkbox"
 							@change="generatePassword"
 						/>
-						<span>numbers (0-9)</span>
+						<span class="password__settings-option-text">numbers (0-9)</span>
 					</label>
 				</li>
 				<li class="password__settings-option">
@@ -69,7 +70,7 @@
 							type="checkbox"
 							@change="generatePassword"
 						/>
-						<span>symbols (~!@#$%^&*)</span>
+						<span class="password__settings-option-text">symbols (~!@#$%^&*)</span>
 					</label>
 				</li>
 			</ul>
@@ -88,6 +89,7 @@
 
 	import BaseIcon from '@/components/BaseIcon.vue';
 	import CopyAll from '@/components/Icons/CopyAll.vue';
+	import Success from '@/components/Icons/Success.vue';
 
 	const SETTINGS = {
 		DEFAULT_PASSWORD_LENGTH: 16,
@@ -108,6 +110,7 @@
 	const isUppercase: Ref<boolean> = ref(false);
 	const isNumbers: Ref<boolean> = ref(false);
 	const isSymbols: Ref<boolean> = ref(false);
+	const copyIconName: Ref<string> = ref('copy');
 
 	// COMPUTED
 	const passwordStrengthComputedClasses: ComputedRef<string[]> = computed(() => {
@@ -179,15 +182,44 @@
 			passwordStrengthClass.value = 'password__indicator_weak';
 		}
 	};
+
+	const copyPassword = () => {
+		if (copyIconName.value === 'success') {
+			return;
+		}
+
+		navigator.clipboard.writeText(password.value);
+
+		copyIconName.value = 'success';
+
+		setTimeout(() => {
+			copyIconName.value = 'copy';
+		}, 1000);
+	};
 </script>
 
 <style lang="scss">
+	.password {
+		display: flex;
+
+		min-width: 400px;
+
+		min-height: 100vh;
+		align-items: center;
+		justify-content: center;
+	}
+
 	.password__container {
-		width: 500px;
+		padding: 0 16px;
 
 		background-color: #ffffff;
 		border-radius: 8px;
 		box-shadow: 0 5px 10px rgb(0 0 0 / 0.1);
+
+		@media (min-width: 576px) {
+			max-width: 400px;
+			margin: 0 15px;
+		}
 	}
 
 	.password__header {
@@ -300,11 +332,17 @@
 	}
 
 	.password__settings {
-		display: flex;
-		flex-wrap: wrap;
-		list-style: none;
+		display: grid;
 
 		margin-top: 1rem;
+		list-style: none;
+		grid-template-columns: 1fr;
+
+		gap: 0;
+
+		@media (min-width: 576px) {
+			grid-template-columns: 1fr 1fr;
+		}
 	}
 
 	.password__settings-option {
@@ -320,16 +358,22 @@
 	}
 
 	.password__settings-option-label {
+		display: flex;
+
 		color: #4f4f4f;
 
 		cursor: pointer;
+	}
+
+	.password__settings-option-text {
+		white-space: nowrap;
 	}
 
 	.password__generate {
 		width: 100%;
 
 		margin: 1rem 0;
-		padding: 1rem 0;
+		padding: 1rem 0.5rem;
 
 		font-size: 1rem;
 
