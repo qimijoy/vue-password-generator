@@ -11,4 +11,14 @@ export default defineConfig({
 			'@': fileURLToPath(new URL('./src', import.meta.url)),
 		},
 	},
+	build: {
+		outDir: './dist/',
+		cssCodeSplit: false,
+		rollupOptions: {
+			output: {
+				entryFileNames: 'assets/goTuda--bundle.js',
+				assetFileNames: 'assets/[name].[ext]',
+			},
+		},
+	},
 });
