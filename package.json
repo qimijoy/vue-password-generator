@@ -10,6 +10,7 @@
 		"dev": "vite",
 		"build": "vite build",
 		"preview": "vite preview",
+		"deploy": "npm run build && gh-pages -d dist",
 		"lint": "eslint ."
 	},
 	"dependencies": {
@@ -27,6 +28,7 @@
 		"eslint-config-prettier": "9.1.0",
 		"eslint-plugin-prettier": "5.2.1",
 		"eslint-plugin-vue": "9.28.0",
+		"gh-pages": "6.1.1",
 		"globals": "15.9.0",
 		"postcss-html": "1.7.0",
 		"prettier": "3.3.3",

@@ -13,8 +13,14 @@ npm ci
 npm run dev
 ```
 
-### TCompile and Minify for Production
+### Compile and Minify for Production
 
 ```sh
 npm run build
+```
+
+### Deploy to GitHub Pages
+
+```sh
+npm run deploy
 ```
