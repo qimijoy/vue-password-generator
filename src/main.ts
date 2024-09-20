@@ -10,4 +10,4 @@ app.use(createPinia());
 // STYLES
 import '@/assets/styles/main.css';
 
-app.mount('#app');
+app.mount('#password');

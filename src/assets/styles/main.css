@@ -4,3 +4,20 @@
 *:before {
 	box-sizing: border-box;
 }
+
+* {
+	margin: 0;
+	padding: 0;
+
+	font-family: Roboto, sans-serif;
+}
+
+body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	min-height: 100vh;
+
+	background-color: #33458f;
+}
