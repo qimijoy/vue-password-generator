@@ -8,6 +8,6 @@ import { createPinia } from 'pinia';
 app.use(createPinia());
 
 // STYLES
-import './assets/main.css';
+import '@/assets/styles/main.css';
 
 app.mount('#app');
